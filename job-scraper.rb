@@ -8,13 +8,11 @@ page = Nokogiri::HTML(open(url))
 
 rows = page.css('.list.jobs div[data-jobid]')
 
-def posted
-  Time.now
-end
 
 rows.map do |row| 
   { job_id: row['data-jobid'],
     title: row.css('a.job-link').first.text,
+    description: row.css('p.description').text,
     url: row.css('a.job-link').first['href'],
     jscore: row.css('.joeltestscore').text,
     company: row.css('p.location').text.split(' - ')[0].strip!,
@@ -23,6 +21,5 @@ rows.map do |row|
   # posted: posted
   }
 end
-
 
 
