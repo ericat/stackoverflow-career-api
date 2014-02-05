@@ -8,6 +8,7 @@ gem 'sinatra'
 gem 'shotgun'
 gem 'rake'
 gem 'grape'
+gem 'shotgun'
 
 group :test, :development do
   gem 'rspec'
