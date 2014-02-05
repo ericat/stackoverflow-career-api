@@ -12,6 +12,8 @@ class Job
   property :url, Text
   property :jscore, Integer
   property :location, Text
+  property :company_name, Text
+  property :scraping_round, Integer
 
 
 end

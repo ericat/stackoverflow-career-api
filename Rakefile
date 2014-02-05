@@ -23,19 +23,29 @@ end
 
 desc "Get jobs"
 task :scrape_jobs do
-  @job_pages = JobScraper.new('http://careers.stackoverflow.com/jobs').scrape
+  scraping_round = Job.last ? Job.last.scraping_round + 1 : 1
 
-  @job_pages.each_with_index do |jobs, index|
+  last_job_id = Job.first(:order => [:scraping_round.desc]).job_id.to_s rescue nil
+  # puts last_job_id
+  
+
+  @job_pages = JobScraper.new('http://careers.stackoverflow.com/jobs', last_job_id).scrape
+
+  # puts @job_pages.inspect
+
+  @job_pages.compact.each_with_index do |jobs, index|
 
     puts "Parsing page #{index + 1}"
 
     jobs.each do |job_info|
 
       tag_names = job_info.delete(:tags)
-      company = job_info.delete(:company)
+      # company = job_info.delete(:company)
+      job_info[:scraping_round] = scraping_round
 
       # Job.raise_on_save_failure = true
       job = Job.create(job_info)
+
       raise job.errors.inspect if job.errors.any?
 
       if tag_names
@@ -50,6 +60,7 @@ end
 
 desc "Get companies"
 task :scrape_companies do
+
   @companies = CompanyScraper.new('http://careers.stackoverflow.com/jobs/companies').scrape
   @companies.each do |company_info|
 
@@ -81,10 +92,11 @@ task :scrape_companies do
           job.save
         else
           puts 'WARN: job not in DB'
-          puts job_id
+          jobs_links = job_id
         end
       end
     end
+
   end
 
 end

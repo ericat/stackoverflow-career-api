@@ -11,10 +11,10 @@ class CompanyScraper
 	end
 
 	def build_urls
-		# urls = ["http://careers.stackoverflow.com/jobs/companies?pg=1", "http://careers.stackoverflow.com/jobs/companies?pg=2" ]
-		urls = []
-		(1..5).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
-		urls
+		["http://careers.stackoverflow.com/jobs/companies?pg=1", "http://careers.stackoverflow.com/jobs/companies?pg=2" ]
+		# urls = []
+		# (1..5).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
+		# urls
 	end
 
 	def company_urls
@@ -47,10 +47,27 @@ class CompanyScraper
 		      founded: (page.css('table.basics tr')[2].children[1].text.to_i rescue nil),
 		      url: (page.css('a.cp-links-url').text rescue nil),
 		      company_id: company_url.split('/').last,
-		      tags: (page.css('div.tags span.post-tag').map(&:text) rescue nil),
-		      benefits_list: (page.css('div.benefits-list span.benefit').map(&:text) rescue nil),
-		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue nil)
+		      tags: (page.css('div.tags span.post-tag').map(&:text) rescue []),
+		      benefits_list: (page.css('div.benefits-list span.benefit').map(&:text) rescue []),
+		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue [])
 		    }
+		end
+	end
+
+	def self.scrape_jobs(job_ids)
+		job_ids.each do |job_id|
+			url = 'http://careers.stackoverflow.com/jobs/' + job_id
+			page = Nokogiri::HTML(open(url))
+			{
+				job_id: job_id,
+				title: page.css('h1.title').text,
+				description: (""),
+				url: url,
+				jscore: "",
+				location: page.css('span.location').text,
+				company: page.css('a.employer').text,
+				tags: [row.css('a.post-tag.job-link').map(&:text)].flatten
+			}
 		end
 	end
 
