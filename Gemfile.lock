@@ -39,6 +39,8 @@ GEM
     diff-lcs (1.2.5)
     dm-aggregates (1.2.0)
       dm-core (~> 1.2.0)
+    dm-ar-finders (1.2.0)
+      dm-core (~> 1.2.0)
     dm-constraints (1.2.0)
       dm-core (~> 1.2.0)
     dm-core (1.2.1)
@@ -133,6 +135,7 @@ DEPENDENCIES
   capybara
   data_mapper
   database_cleaner
+  dm-ar-finders
   dm-postgres-adapter
   grape
   rake

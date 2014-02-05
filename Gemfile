@@ -6,6 +6,7 @@ gem 'data_mapper'
 gem 'dm-postgres-adapter'
 gem 'rake'
 gem 'grape'
+gem 'dm-ar-finders'
 
 group :test, :development do
   gem 'rspec'
