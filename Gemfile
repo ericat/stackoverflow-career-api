@@ -6,6 +6,7 @@ gem 'data_mapper'
 gem 'dm-postgres-adapter'
 gem 'rake'
 gem 'grape'
+gem 'grape-entity'
 gem 'dm-ar-finders'
 gem 'thin'
 

@@ -1,6 +1,17 @@
 class Job
 
   include DataMapper::Resource
+  include Grape::Entity::DSL
+
+  entity do
+    expose :job_id
+    expose :title
+    expose :description
+    expose :url
+    expose :jscore
+    expose :location
+    expose :company_name
+  end
 
   has n, :tags, :through => Resource
   belongs_to :company, required: false
