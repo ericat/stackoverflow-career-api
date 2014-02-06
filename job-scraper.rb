@@ -13,7 +13,8 @@ class JobScraper
   end
 
   def build_urls
-   ["http://careers.stackoverflow.com/jobs?pg=1", "http://careers.stackoverflow.com/jobs?pg=2", "http://careers.stackoverflow.com/jobs?pg=3"]
+   ["http://careers.stackoverflow.com/jobs?pg=1"]
+    # , "http://careers.stackoverflow.com/jobs?pg=2", "http://careers.stackoverflow.com/jobs?pg=3"]
    # urls = []
    # (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs?pg=#{n}"} 
    #  urls
@@ -49,7 +50,7 @@ class JobScraper
             company_name: row.css('p.location span.employer').text.squish,
             location: row.css('p.location').text.split(' - ')[1].squish,
             tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
-            # posted: posted
+            # posted: self.posted
           }
         end
         job_info
