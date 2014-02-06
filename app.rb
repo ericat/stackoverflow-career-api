@@ -17,15 +17,27 @@ class StackAPI < Grape::API
     Job.all
   end
 
-  desc "Returns a list of jobs by location"
-  get :kumi do
-    Job.find_by_sql("SELECT * FROM jobs")
-  end
-
   desc "Returns a list of companies."
   get :companies do
     Company.all
   end
+
+  desc "Returns a list of jobs where relocation is offered."
+  get :relocation do
+    Job.find_by_sql("SELECT * FROM jobs WHERE location LIKE '%(relocation offered)%'")
+  end
+
+  desc "Returns a list of jobs where remote working is allowed."
+  get :remote do
+    Job.find_by_sql("SELECT * FROM jobs WHERE location LIKE '%(allows remote)%'")
+  end
+
+  desc "Returns a list of senior level jobs."
+  get :senior do
+    Job.find_by_sql("SELECT * FROM jobs WHERE title LIKE '%senior%' OR title like '%Senior%'")
+    # Job.find_by_sql("SELECT * FROM jobs WHERE title REGEXP '(S|s)enior'")
+  end
+
 
   # desc "Returns a single job."
   # params do
