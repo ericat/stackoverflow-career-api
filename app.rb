@@ -16,6 +16,10 @@ def show_jobs(jobs)
   present jobs, with: Job::Entity
 end
 
+def show_companies(companies)
+  present companies, with: Company::Entity
+end
+
 class StackAPI < Grape::API
   format :json
   default_format :json
@@ -52,7 +56,7 @@ class StackAPI < Grape::API
 
   desc "Returns a list of companies."
   get :companies do
-    Company.all
+    show_companies(Company.all)
   end
 
   desc "Returns a single company."
@@ -62,7 +66,7 @@ class StackAPI < Grape::API
     end
     route_param :id do
       get do
-        Company.first(company_id: params[:id])
+        show_companies(Company.first(company_id: params[:id]))
       end
     end
   end
