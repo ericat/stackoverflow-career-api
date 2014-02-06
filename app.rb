@@ -33,7 +33,7 @@ class StackAPI < Grape::API
     end
     route_param :id do
       get do
-        Job.first(job_id: params[:id])
+        show_jobs(Job.first(job_id: params[:id]))
       end
     end
 
@@ -80,17 +80,17 @@ class StackAPI < Grape::API
 
   desc "Returns a list of jobs where relocation is offered."
   get :relocation do
-    Job.find_by_sql("SELECT * FROM jobs WHERE location ILIKE '%(relocation offered)%'")
+    show_jobs(Job.find_by_sql("SELECT * FROM jobs WHERE location ILIKE '%(relocation offered)%'"))
   end
 
   desc "Returns a list of jobs where remote working is allowed."
   get :remote do
-    Job.find_by_sql("SELECT * FROM jobs WHERE location ILIKE '%(allows remote)%'")
+    show_jobs(Job.find_by_sql("SELECT * FROM jobs WHERE location ILIKE '%(allows remote)%'"))
   end
 
   desc "Returns a list of senior level jobs."
   get :senior do
-    Job.find_by_sql("SELECT * FROM jobs WHERE title ILIKE '%senior%'")
+    show_jobs(Job.find_by_sql("SELECT * FROM jobs WHERE title ILIKE '%senior%'"))
     # Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%(S|s)enior%'")
   end
 
