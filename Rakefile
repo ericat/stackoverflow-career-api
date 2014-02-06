@@ -51,6 +51,7 @@ task :scrape_jobs do
       if tag_names
         tag_names.each do |tag_name|
           job.tags << Tag.first_or_create(name: tag_name)
+          job.save
         end
       end
 
@@ -65,7 +66,7 @@ task :scrape_companies do
   @companies.each do |company_info|
 
     tag_names = company_info.delete(:tags)
-    benefits = company_info.delete(:benefits_list)
+    benefits = company_info.delete(:benefits)
     jobs = company_info.delete(:jobs)
 
     company = Company.create(company_info)
@@ -79,6 +80,7 @@ task :scrape_companies do
     if benefits
       benefits.each do |benefit|
         company.benefits << Benefit.first_or_create(name: benefit)
+        company.save
       end
     end
 

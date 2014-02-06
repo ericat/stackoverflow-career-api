@@ -22,9 +22,14 @@ class StackAPI < Grape::API
     Job.find_by_sql("SELECT * FROM jobs")
   end
 
+  desc "Returns a list of companies."
+  get :companies do
+    Company.all
+  end
+
   # desc "Returns a single job."
   # params do
-  #   requires :jobs, type: Integer, desc: "Job id."
+  #   requires :jobs, type: String, desc: "Job id."
   # end
   # route_param :job_id do
   #   get do
@@ -32,12 +37,7 @@ class StackAPI < Grape::API
   #   end
   # end
 
-  desc "Returns a list of companies."
-  get :companies do
-    Company.all
-  end
-
-  # puts routes.inspect
+  puts routes
 
 end
 

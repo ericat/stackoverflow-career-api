@@ -48,7 +48,7 @@ class CompanyScraper
 		      url: (page.css('a.cp-links-url').text rescue nil),
 		      company_id: company_url.split('/').last,
 		      tags: (page.css('div.tags span.post-tag').map(&:text) rescue []),
-		      benefits_list: (page.css('div.benefits-list span.benefit').map(&:text) rescue []),
+		      benefits: (page.css('div.benefits-list span.benefit').map(&:text) rescue []),
 		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue [])
 		    }
 		end

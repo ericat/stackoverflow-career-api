@@ -7,6 +7,7 @@ gem 'dm-postgres-adapter'
 gem 'rake'
 gem 'grape'
 gem 'dm-ar-finders'
+gem 'thin'
 
 group :test, :development do
   gem 'rspec'
