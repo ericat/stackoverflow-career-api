@@ -12,7 +12,7 @@ require_relative 'data_mapper_setup'
 
 # end
 
-def j(jobs)
+def show_jobs(jobs)
   present jobs, with: Job::Entity
 end
 
@@ -23,13 +23,50 @@ class StackAPI < Grape::API
 
   desc "Returns a list of jobs."
   get :jobs do
-    j Job.all
+    show_jobs(Job.all)
+  end
+
+  desc "Return a single job."
+  resource :jobs do
+    params do
+      requires :id, type: String, desc: "Job id."
+    end
+    route_param :id do
+      get do
+        Job.first(job_id: params[:id])
+      end
+    end
+
+  desc "Return a list of jobs by tag from user query."
+    resource :tags do
+      params do
+        requires :id, type: String, desc: "Tag."
+      end
+      route_param :id do
+        get do
+          Tag.first(name: params[:id]).jobs
+        end
+      end
+    end
   end
 
   desc "Returns a list of companies."
   get :companies do
     Company.all
   end
+
+  desc "Returns a single company."
+  resource :companies do
+    params do
+      requires :id, type: String, desc: "Company id."
+    end
+    route_param :id do
+      get do
+        Company.first(company_id: params[:id])
+      end
+    end
+  end
+
 
   desc "Returns a list of jobs where relocation is offered."
   get :relocation do
@@ -47,18 +84,15 @@ class StackAPI < Grape::API
     # Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%(S|s)enior%'")
   end
 
-  resource :jobs do
-    params do
-      requires :id, type: Integer, desc: "Job id."
-    end
-    route_param :id do
-      get do
-        Job.first(job_id: params[:id])
-      end
-    end
+  desc "Return a list of full stack jobs"
+  get :full_stack do
+    # Job.find_by_sql("SELECT * FROM jobs WHERE title ILIKE TO '%full stack%'")
   end
 
-  # puts routes
+
+
+
+  puts routes
 
 end
 
