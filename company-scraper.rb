@@ -49,7 +49,8 @@ class CompanyScraper
 		      company_id: company_url.split('/').last,
 		      tags: (page.css('div.tags span.post-tag').map(&:text) rescue []),
 		      benefits: (page.css('div.benefits-list span.benefit').map(&:text) rescue []),
-		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue [])
+		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue []),
+		      created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
 		    }
 		end
 	end
@@ -66,7 +67,8 @@ class CompanyScraper
 				jscore: "",
 				location: page.css('span.location').text,
 				company: page.css('a.employer').text,
-				tags: [row.css('a.post-tag.job-link').map(&:text)].flatten
+				tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
+				created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
 			}
 		end
 	end

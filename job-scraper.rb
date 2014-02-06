@@ -20,8 +20,8 @@ class JobScraper
    #  urls
   end
 
-  # def self.posted
-  #   Time.now.strftime("%Y-%m-%d %H:%M:%S")
+  # def self.created_at
+    
   # end
 
   def scrape
@@ -50,7 +50,7 @@ class JobScraper
             company_name: row.css('p.location span.employer').text.squish,
             location: row.css('p.location').text.split(' - ')[1].squish,
             tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
-            # posted: self.posted
+            created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
           }
         end
         job_info

@@ -1,5 +1,6 @@
 require 'data_mapper'
 require 'open-uri'
+require 'grape-entity'
 require 'nokogiri'
 require './lib/benefit'
 require './lib/company'
