@@ -23,13 +23,12 @@ task :auto_migrate do
   puts "Auto-migrate complete (data could have been lost)"
 end
 
-desc "Get jobs"
+desc "Get most recent jobs and save them to database"
 task :scrape_jobs do
   scraping_round = Job.last ? Job.last.scraping_round + 1 : 1
 
   last_job_id = Job.first(:order => [:scraping_round.desc]).job_id.to_s rescue nil
-  # puts last_job_id
-  
+
 
   @job_pages = JobScraper.new('http://careers.stackoverflow.com/jobs', last_job_id).scrape
 
@@ -64,6 +63,7 @@ end
 desc "Get companies"
 task :scrape_companies do
 
+  @jobs_links = []
   @companies = CompanyScraper.new('http://careers.stackoverflow.com/jobs/companies').scrape
   @companies.each do |company_info|
 
@@ -86,7 +86,9 @@ task :scrape_companies do
       end
     end
 
+
     if jobs
+
       jobs.each do |job_id|
         job = Job.first(job_id: job_id)
         
@@ -95,13 +97,15 @@ task :scrape_companies do
           job.company = company
           job.save
         else
-          puts 'WARN: job not in DB'
-          jobs_links = job_id
+          puts "WARN: job not in DB: #{job_id}"
+          @jobs_links << job_id
+          @jobs_links
         end
       end
     end
-
   end
+  
+  # puts @jobs_links.inspect
 
 end
 
