@@ -25,6 +25,7 @@ class Job
   property :location, Text
   property :company_name, Text
   property :scraping_round, Integer
+  property :created_at, Time
 
 
 end

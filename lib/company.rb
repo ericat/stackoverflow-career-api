@@ -25,6 +25,6 @@ class Company
   property :founded, Integer
   property :url, String
   property :company_id, String
-
+  property :created_at, Time
 end
 

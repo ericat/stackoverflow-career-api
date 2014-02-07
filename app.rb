@@ -8,9 +8,9 @@ require './lib/job'
 require './lib/tag'
 require_relative 'data_mapper_setup'
 
-def show_jobs(jobs)
-  present jobs, with: Job::Entity
-end
+  def show_jobs(jobs)
+    present jobs, with: Job::Entity
+  end
 
 def show_companies(companies)
   present companies, with: Company::Entity
@@ -21,6 +21,7 @@ class StackAPI < Grape::API
   default_format :json
   prefix 'api'
 
+  
   desc "Returns a list of jobs."
   get :jobs do
     show_jobs(Job.all)
@@ -94,12 +95,10 @@ class StackAPI < Grape::API
     # Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%(S|s)enior%'")
   end
 
-  # desc "Return a list of full stack jobs"
-  # get :full_stack do
-  #   # Job.find_by_sql("SELECT * FROM jobs WHERE title ILIKE TO '%full stack%'")
-  # end
-
-
+  desc "Return a list of full stack jobs"
+  get :full_stack do
+    Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%((F|f)ull(\s)(S|s)tack)%'")
+  end
 
 
   puts routes
