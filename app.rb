@@ -79,6 +79,24 @@ class StackAPI < Grape::API
         end
       end
     end
+
+    desc "Returns a list of companies by benefits keywords"
+    resource :benefits do
+      params do
+        requires :id, type: String, desc: "Benefits"
+      end
+      route_param :id do
+        get do
+          benefit_names = params[:id].split('&')
+          benefits = benefit_names.map { |benefit| Benefit.first(:name.like => "%#{benefit}%") }
+
+
+          Company.all(benefits: benefits.flatten)
+        end
+      end
+    end
+
+
   end
 
   desc "Returns a list of jobs where relocation is offered."
@@ -94,7 +112,6 @@ class StackAPI < Grape::API
   desc "Returns a list of senior level jobs."
   get :senior do
     show_jobs(Job.find_by_sql("SELECT * FROM jobs WHERE title ILIKE '%senior%'"))
-    # Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%(S|s)enior%'")
   end
 
   desc "Return a list of full stack jobs"

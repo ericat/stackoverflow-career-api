@@ -11,7 +11,8 @@ class CompanyScraper
 	end
 
 	def build_urls
-		["http://careers.stackoverflow.com/jobs/companies?pg=1", "http://careers.stackoverflow.com/jobs/companies?pg=2" ]
+		["http://careers.stackoverflow.com/jobs/companies?pg=1"]
+			# , "http://careers.stackoverflow.com/jobs/companies?pg=2" ]
 		# urls = []
 		# (1..5).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
 		# urls
@@ -28,6 +29,9 @@ class CompanyScraper
 		company_urls
 	end
 
+	def posted_at
+		Time.now.strftime("%Y-%m-%d %H:%M:%S")
+	end
 
 	def scrape
 		@company_urls = company_urls
@@ -50,7 +54,7 @@ class CompanyScraper
 		      tags: (page.css('div.tags span.post-tag').map(&:text) rescue []),
 		      benefits: (page.css('div.benefits-list span.benefit').map(&:text) rescue []),
 		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue []),
-		      created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
+		      created_at: posted_at
 		    }
 		end
 	end
@@ -64,7 +68,7 @@ class CompanyScraper
 				title: page.css('h1.title').text,
 				description: (""),
 				url: url,
-				jscore: "",
+				jscore: page.css("h3").match(/\d+(?=\sout)/),
 				location: page.css('span.location').text,
 				company: page.css('a.employer').text,
 				tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,

@@ -10,6 +10,7 @@ require_relative 'data_mapper_setup'
 require_relative 'job-scraper'
 require_relative 'company-scraper'
 
+
 desc "Upgrade database"
 task :auto_upgrade do
   DataMapper.auto_upgrade!
