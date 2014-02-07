@@ -45,7 +45,8 @@ class StackAPI < Grape::API
       end
       route_param :id do
         get do
-          Tag.first(name: params[:id]).jobs
+          tags = params[:id].split('&')
+          Tag.all(name: tags).map(&:jobs).flatten
         end
       end
     end
@@ -73,7 +74,8 @@ class StackAPI < Grape::API
       end
       route_param :id do
         get do
-          Tag.first(name: params[:id]).companies
+          tags = params[:id].split('&')
+          Tag.all(name: tags).map(&:companies).flatten
         end
       end
     end
