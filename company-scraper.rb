@@ -36,48 +36,41 @@ class CompanyScraper
 		Time.now.strftime("%Y-%m-%d %H:%M:%S")
 	end
 
-	# def get_name
-		# @page.css('h1').text
-	# end
+	def get_name
+		@page.css('h1').text
+	end
 
-	# def get_avatar
-	# 	@page.css('div.logo-container img').first['src']
-	# 	rescue nil
-	# end
+	def get_avatar
+		@page.css('div.logo-container img').first['src'] rescue nil
+	end
 
-	# def get_size
-	# 	@page.css('table.basics tr').first.children[1].text
-	# 	rescue nil
-	# end
+	def get_size
+		@page.css('table.basics tr').first.children[1].text rescue nil
+	end
 
-	# def get_status
-	# 	@page.css('table.basics tr')[1].children[1].text
-	# 	rescue nil
-	# end
+	def get_status
+		@page.css('table.basics tr')[1].children[1].text rescue nil
+	end
 
-	# def get_founded
-	# 	@page.css('table.basics tr')[2].children[1].text.to_i
-	# 	rescue nil
-	# end
+	def get_founded
+		@page.css('table.basics tr')[2].children[1].text.to_i rescue nil
+	end
 
-	# def get_url
-	# 	@page.css('a.cp-links-url').text rescue nil
-	# end
+	def get_url
+		@page.css('a.cp-links-url').text rescue nil
+	end
 
-	# def get_tags
-	# 	@page.css('div.tags span.post-tag').map(&:text)
-	# 	rescue []
-	# end
+	def get_tags
+		@page.css('div.tags span.post-tag').map(&:text) rescue []
+	end
 
-	# def get_benefits
-	# 	@page.css('div.benefits-list span.benefit').map(&:text)
-	# 	rescue []
-	# end
+	def get_benefits
+		@page.css('div.benefits-list span.benefit').map(&:text) rescue []
+	end
 
-	# def get_open_jobs
-	# 	@page.css('div.job a').map {|link| link[:href][/\d+/]}
-	# 	rescue []
-	# end
+	def get_open_jobs
+		@page.css('div.job a').map {|link| link[:href][/\d+/]} rescue []
+	end
 
 	def scrape
 		@company_urls = company_urls
@@ -87,18 +80,18 @@ class CompanyScraper
 			puts "Parsing page #{index}"
 			index += 1
 
-		  page = Nokogiri::HTML(open(company_url))
+		  @page = Nokogiri::HTML(open(company_url))
 
-		    { name: page.css('h1').text,
-		      avatar: (page.css('div.logo-container img').first['src'] rescue nil),
-		      size: (page.css('table.basics tr').first.children[1].text rescue nil),
-		      status: (page.css('table.basics tr')[1].children[1].text rescue nil),
-		      founded: (page.css('table.basics tr')[2].children[1].text.to_i rescue nil),
-		      url: (page.css('a.cp-links-url').text rescue nil),
+		    { name: get_name,
+		      avatar: get_avatar,
+		      size: get_size,
+		      status: get_status,
+		      founded: get_founded,
+		      url: get_url,
 		      company_id: company_url.split('/').last,
-		      tags: (page.css('div.tags span.post-tag').map(&:text) rescue []),
-		      benefits: (page.css('div.benefits-list span.benefit').map(&:text) rescue []),
-		      jobs: (page.css('div.job a').map {|link| link[:href][/\d+/]} rescue []),
+		      tags: get_tags,
+		      benefits: get_benefits,
+		      jobs: get_open_jobs,
 		      created_at: posted_at
 		    }
 		end
