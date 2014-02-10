@@ -70,7 +70,7 @@ class CompanyScraper
 				url: url,
 				jscore: page.css("h3").match(/\d+(?=\sout)/),
 				location: page.css('span.location').text,
-				company: page.css('a.employer').text,
+				company_name: page.css('a.employer').text,
 				tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
 				created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
 			}
