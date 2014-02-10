@@ -74,7 +74,7 @@ class CompanyScraper
 
 	def scrape
 		@company_urls = company_urls
-
+		
 		index = 1
 		@company_urls.map do |company_url|
 			puts "Parsing page #{index}"

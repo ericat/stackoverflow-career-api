@@ -24,33 +24,33 @@ class JobScraper
     Time.now.strftime("%Y-%m-%d %H:%M:%S")
   end
 
-  # def get_title(row) 
-    # row.css('a.job-link').first.text
-  # end
+  def get_title(row) 
+    row.css('a.job-link').first.text
+  end
 
-  # def get_desc(row)
-  #   row.css('p.description').text
-  # end
+  def get_desc(row)
+    row.css('p.description').text
+  end
 
-  # def get_url(row)
-  #   row.css('a.job-link').first['href']
-  # end
+  def get_url(row)
+    row.css('a.job-link').first['href']
+  end
 
-  # def get_jscore(row)
-  #   row.css('.joeltestscore').text.to_i
-  # end
+  def get_jscore(row)
+    row.css('.joeltestscore').text.to_i
+  end
 
-  # def get_name(row)
-  #   row.css('p.location span.employer').text.squish,
-  # end
+  def get_name(row)
+    row.css('p.location span.employer').text.squish
+  end
 
-  # def get_location(row)
-  #   row.css('p.location').text.split(' - ')[1].squish
-  # end
+  def get_location(row)
+    row.css('p.location').text.split(' - ')[1].squish
+  end
 
-  # def get_tags(row)
-  #   [row.css('a.post-tag.job-link').map(&:text)].flatten
-  # end
+  def get_tags(row)
+    [row.css('a.post-tag.job-link').map(&:text)].flatten
+  end
 
   def scrape
     @urls = build_urls
@@ -71,13 +71,13 @@ class JobScraper
           break if job_already_scraped
 
           job_info << { job_id: row['data-jobid'],
-            title: row.css('a.job-link').first.text,
-            description: row.css('p.description').text,
-            url: row.css('a.job-link').first['href'],
-            jscore: row.css('.joeltestscore').text.to_i,
-            company_name: row.css('p.location span.employer').text.squish,
-            location: row.css('p.location').text.split(' - ')[1].squish,
-            tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
+            title: get_title(row),
+            description: get_desc(row),
+            url: get_url(row),
+            jscore: get_jscore(row),
+            company_name: get_name(row),
+            location: get_location(row),
+            tags: get_tags(row),
             created_at: posted_at
           }
         end
