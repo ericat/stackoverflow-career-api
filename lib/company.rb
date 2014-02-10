@@ -26,5 +26,6 @@ class Company
   property :url, String
   property :company_id, String
   property :created_at, Time
+  property :scraping_round, Integer
 end
 

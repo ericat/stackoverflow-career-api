@@ -15,12 +15,11 @@ def parse_jobs(pages)
 
   pages.compact.each_with_index do |jobs, index|
     puts "Parsing page #{index + 1}"
-
     jobs.each do |job_info|
       tag_names = job_info.delete(:tags)
       # company = job_info.delete(:company)
       job_info[:scraping_round] = scraping_round
-      Job.raise_on_save_failure = true
+      # Job.raise_on_save_failure = true
       job = Job.create(job_info)
       raise job.errors.inspect if job.errors.any?
       if tag_names
@@ -34,43 +33,11 @@ def parse_jobs(pages)
 end
 
 def parse_companies(pages)
-end
+  scraping_round = Company.last ? Company.last.scraping_round + 1 : 1
 
-
-desc "Upgrade database"
-task :auto_upgrade do
-  DataMapper.auto_upgrade!
-  puts "Auto-upgrade complete (no data loss)"
-end
-
-desc "Migrate database"
-task :auto_migrate do
-  DataMapper.auto_migrate!
-  puts "Auto-migrate complete"
-end
-
-desc "Get most recent jobs and save them to database"
-task :scrape_jobs do
-  last_job_id = Job.first(:order => [:scraping_round.desc]).job_id.to_s rescue nil
-  pages = JobScraper.new('http://careers.stackoverflow.com/jobs', last_job_id).scrape
-  parse_jobs(pages)
-end
-
-desc "Refresh jobs database"
-task :refresh_jobs do
-end
-
-desc "Refresh companies database"
-task :refresh_companies do
-end
-
-desc "Get companies"
-task :scrape_companies do
-
-  @jobs_links = []
-  @companies = CompanyScraper.new('http://careers.stackoverflow.com/jobs/companies').scrape
-  @companies.each do |company_info|
-
+   @jobs_links = []
+   pages.each do |company_info|
+    company_info[:scraping_round] = scraping_round
     tag_names = company_info.delete(:tags)
     benefits = company_info.delete(:benefits)
     jobs = company_info.delete(:jobs)
@@ -90,12 +57,9 @@ task :scrape_companies do
       end
     end
 
-
     if jobs
-
       jobs.each do |job_id|
-        job = Job.first(job_id: job_id)
-        
+        job = Job.first(job_id: job_id)      
         if job
           puts 'saving job'
           job.company = company
@@ -108,10 +72,43 @@ task :scrape_companies do
       end
     end
   end
-  
-  # puts @jobs_links.inspect
-
 end
+
+
+desc "Upgrade database"
+task :auto_upgrade do
+  DataMapper.auto_upgrade!
+  puts "Auto-upgrade complete (no data loss)"
+end
+
+desc "Migrate database"
+task :auto_migrate do
+  DataMapper.auto_migrate!
+  puts "Auto-migrate complete"
+end
+
+desc "Get most recent jobs and save to database"
+task :scrape_jobs do
+  last_job_id = Job.first(:order => [:scraping_round.desc]).job_id.to_s rescue nil
+  pages = JobScraper.new('http://careers.stackoverflow.com/jobs', last_job_id).scrape
+  parse_jobs(pages)
+end
+
+desc "Get most recent companies and save to database"
+task :scrape_companies do
+  last_company_id = Company.first(:order => [:scraping_round.desc]).company_id.to_s rescue nil
+  pages = CompanyScraper.new('http://careers.stackoverflow.com/jobs/companies', last_company_id).scrape
+  parse_companies(pages)
+end
+
+desc "Refresh jobs database"
+task :refresh_jobs do
+end
+
+desc "Refresh companies database"
+task :refresh_companies do
+end
+
 
 
 

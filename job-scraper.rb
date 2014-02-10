@@ -20,8 +20,36 @@ class JobScraper
    #  urls
   end
 
-  # def self.created_at
-    
+  def posted_at
+    Time.now.strftime("%Y-%m-%d %H:%M:%S")
+  end
+
+  # def get_title(row) 
+    # row.css('a.job-link').first.text
+  # end
+
+  # def get_desc(row)
+  #   row.css('p.description').text
+  # end
+
+  # def get_url(row)
+  #   row.css('a.job-link').first['href']
+  # end
+
+  # def get_jscore(row)
+  #   row.css('.joeltestscore').text.to_i
+  # end
+
+  # def get_name(row)
+  #   row.css('p.location span.employer').text.squish,
+  # end
+
+  # def get_location(row)
+  #   row.css('p.location').text.split(' - ')[1].squish
+  # end
+
+  # def get_tags(row)
+  #   [row.css('a.post-tag.job-link').map(&:text)].flatten
   # end
 
   def scrape
@@ -50,7 +78,7 @@ class JobScraper
             company_name: row.css('p.location span.employer').text.squish,
             location: row.css('p.location').text.split(' - ')[1].squish,
             tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
-            created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
+            created_at: posted_at
           }
         end
         job_info
