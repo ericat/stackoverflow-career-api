@@ -9,6 +9,7 @@ gem 'grape'
 gem 'grape-entity'
 gem 'dm-ar-finders'
 gem 'thin'
+gem 'nokogiri'
 
 group :test, :development do
   gem 'rspec'

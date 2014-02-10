@@ -148,6 +148,7 @@ DEPENDENCIES
   dm-postgres-adapter
   grape
   grape-entity
+  nokogiri
   rake
   rspec
   thin
