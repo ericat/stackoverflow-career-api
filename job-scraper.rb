@@ -1,12 +1,11 @@
 require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
-require 'pp'
 require 'active_support/core_ext/string'
 
 class JobScraper
 
-  def initialize(url, last_job_id)
+  def initialize(url, last_job_id='nonsense')
     @last_job_id = last_job_id
     @page = Nokogiri::HTML(open(url))
     @last_page = @page.css('div.pagination a.job-link')[-2].text.to_i
@@ -33,7 +32,7 @@ class JobScraper
   end
 
   def get_url(row)
-    row.css('a.job-link').first['href']
+    "http://careers.stackoverflow.com/" + row.css('a.job-link').first['href']
   end
 
   def get_jscore(row)
@@ -53,6 +52,7 @@ class JobScraper
   end
 
   def scrape
+    puts "Scraping..."
     @urls = build_urls
     index = 0
     job_already_scraped = false

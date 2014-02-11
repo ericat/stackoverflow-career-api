@@ -4,7 +4,7 @@ require 'open-uri'
 
 class CompanyScraper
 
-	def initialize(url, last_company_id)
+	def initialize(url, last_company_id='nonsense')
 		@page = Nokogiri::HTML(open(url))
 		@last_page = @page.css('div.pagination a.job-link')[-2].text.to_i
 		@last_company_id = last_company_id
@@ -74,7 +74,7 @@ class CompanyScraper
 
 	def scrape
 		@company_urls = company_urls
-		
+
 		index = 1
 		@company_urls.map do |company_url|
 			puts "Parsing page #{index}"
@@ -98,20 +98,30 @@ class CompanyScraper
 	end
 
 	def self.scrape_jobs(job_ids)
-		job_ids.each do |job_id|
+		index = 1
+		job_ids.map do |job_id|
 			url = 'http://careers.stackoverflow.com/jobs/' + job_id
-			page = Nokogiri::HTML(open(url))
-			{
-				job_id: job_id,
-				title: page.css('h1.title').text,
-				description: (""),
-				url: url,
-				jscore: page.css("h3").match(/\d+(?=\sout)/),
-				location: page.css('span.location').text,
-				company_name: page.css('a.employer').text,
-				tags: [row.css('a.post-tag.job-link').map(&:text)].flatten,
-				created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
-			}
+			puts "Parsing page #{index}"
+			index += 1
+
+			open(url) do |resp|
+				url = resp.base_uri.to_s
+
+				page = Nokogiri::HTML(resp.read)
+				# puts page.base_uri
+
+				{
+					job_id: job_id,
+					title: page.css('h1 .title').text,
+					description: page.css("meta[name='twitter:description'][content]").text,
+					url: url,
+					jscore: (page.css("h3").text.match(/(\d+) out of/)[1].to_i rescue nil),
+					location: page.css('span.location').text,
+					company_name: page.css('a.employer').text,
+					tags: [page.css('a.post-tag.job-link').map(&:text)].flatten,
+					created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
+				}
+			end
 		end
 	end
 

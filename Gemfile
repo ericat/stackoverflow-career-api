@@ -8,6 +8,7 @@ gem 'rake'
 gem 'grape'
 gem 'grape-entity'
 gem 'dm-ar-finders'
+gem 'dm-constraints'
 gem 'thin'
 gem 'nokogiri'
 

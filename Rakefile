@@ -66,8 +66,7 @@ def parse_companies(pages)
           job.save
         else
           puts "WARN: job not in DB: #{job_id}"
-          @jobs_links << job_id
-          @jobs_links
+          Job.create(job_id: job_id, title: "Job Missing", company: company)
         end
       end
     end
@@ -101,12 +100,42 @@ task :scrape_companies do
   parse_companies(pages)
 end
 
+desc "Scrape jobs not in db"
+task :jobs_not_in_db do
+  job_ids = Job.all(:title => "Job Missing").map(&:job_id)
+  jobs = CompanyScraper.scrape_jobs(job_ids)
+  jobs.each do |job_info|
+    puts job_info[:job_id]
+
+    tag_names = job_info.delete(:tags)
+    job = Job.first(job_id: job_info[:job_id])
+    # puts job_info.inspect
+    job.update(job_info)
+    raise job.errors.inspect if job.errors.any?
+
+    if tag_names
+      tag_names.each do |tag_name|
+        job.tags << Tag.first_or_create(name: tag_name)
+        job.save
+      end
+    end
+  end
+end
+
 desc "Refresh jobs database"
 task :refresh_jobs do
+  JobTag.destroy
+  Job.destroy
+  pages = JobScraper.new('http://careers.stackoverflow.com/jobs').scrape
+  parse_jobs(pages)
 end
 
 desc "Refresh companies database"
 task :refresh_companies do
+  CompanyTag.destroy
+  Company.destroy
+  pages = CompanyScraper.new('http://careers.stackoverflow.com/jobs/companies').scrape
+  parse_companies(pages)
 end
 
 
