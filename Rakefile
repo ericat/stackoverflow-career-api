@@ -17,7 +17,6 @@ def parse_jobs(pages)
     puts "Parsing page #{index + 1}"
     jobs.each do |job_info|
       tag_names = job_info.delete(:tags)
-      # company = job_info.delete(:company)
       job_info[:scraping_round] = scraping_round
       # Job.raise_on_save_failure = true
       job = Job.create(job_info)
@@ -33,7 +32,7 @@ def parse_jobs(pages)
 end
 
 def parse_companies(pages)
-  scraping_round = Company.last ? Company.last.scraping_round + 1 : 1
+  scraping_round = Company.last ? (Company.last.scraping_round || 0) + 1 : 1
 
    @jobs_links = []
    pages.each do |company_info|
@@ -105,11 +104,8 @@ task :jobs_not_in_db do
   job_ids = Job.all(:title => "Job Missing").map(&:job_id)
   jobs = CompanyScraper.scrape_jobs(job_ids)
   jobs.each do |job_info|
-    puts job_info[:job_id]
-
     tag_names = job_info.delete(:tags)
     job = Job.first(job_id: job_info[:job_id])
-    # puts job_info.inspect
     job.update(job_info)
     raise job.errors.inspect if job.errors.any?
 

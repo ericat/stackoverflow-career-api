@@ -97,6 +97,11 @@ class CompanyScraper
 		end
 	end
 
+	def self.get_meta_desc
+		desc = @page.css("meta[name='Description']").first
+		desc['content']
+	end
+
 	def self.scrape_jobs(job_ids)
 		index = 1
 		job_ids.map do |job_id|
@@ -107,18 +112,16 @@ class CompanyScraper
 			open(url) do |resp|
 				url = resp.base_uri.to_s
 
-				page = Nokogiri::HTML(resp.read)
-				# puts page.base_uri
-
+				@page = Nokogiri::HTML(resp.read)
 				{
 					job_id: job_id,
-					title: page.css('h1 .title').text,
-					description: page.css("meta[name='twitter:description'][content]").text,
+					title: @page.css('h1 .title').text,
+					description: get_meta_desc,
 					url: url,
-					jscore: (page.css("h3").text.match(/(\d+) out of/)[1].to_i rescue nil),
-					location: page.css('span.location').text,
-					company_name: page.css('a.employer').text,
-					tags: [page.css('a.post-tag.job-link').map(&:text)].flatten,
+					jscore: (@page.css("h3").text.match(/(\d+) out of/)[1].to_i rescue nil),
+					location: @page.css('span.location').text,
+					company_name: @page.css('a.employer').text,
+					tags: [@page.css('a.post-tag.job-link').map(&:text)].flatten,
 					created_at: Time.now.strftime("%Y-%m-%d %H:%M:%S")
 				}
 			end
