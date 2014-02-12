@@ -14,7 +14,6 @@ gem 'nokogiri'
 gem 'dm-core'
 gem 'dm-do-adapter'
 gem 'newrelic_rpm'
-gem 'net/http'
 
 group :test, :development do
   gem 'rspec'
