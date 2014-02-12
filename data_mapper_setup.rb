@@ -4,4 +4,4 @@ DataMapper.setup(:default, ENV["DATABASE_URL"] || "postgres://localhost/stackove
 
 DataMapper.finalize
 
-DataMapper.auto_upgrade!
+# DataMapper.auto_upgrade!
