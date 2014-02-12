@@ -31,7 +31,7 @@ class JobScraper
   end
 
   def get_url(row)
-    "http://careers.stackoverflow.com/" + row.css('a.job-link').first['href'].split(/\?/)[0]
+    "http://careers.stackoverflow.com" + row.css('a.job-link').first['href'].split(/\?/)[0]
   end
 
   def get_jscore(row)

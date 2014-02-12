@@ -42,6 +42,8 @@ def parse_companies(pages)
     jobs = company_info.delete(:jobs)
 
     company = Company.create(company_info)
+    puts company_info
+    raise company.errors.inspect if company.errors.any?
 
     if tag_names
       tag_names.each do |tag_name|
@@ -132,6 +134,16 @@ task :refresh_companies do
   Company.destroy
   pages = CompanyScraper.new('http://careers.stackoverflow.com/jobs/companies').scrape
   parse_companies(pages)
+end
+
+desc "Pings PING_URL to keep a dyno alive"
+task :dyno_ping do
+  require "net/http"
+
+  if ENV['PING_URL']
+    uri = URI(ENV['PING_URL'])
+    Net::HTTP.get_response(uri)
+  end
 end
 
 

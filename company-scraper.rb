@@ -42,7 +42,7 @@ class CompanyScraper
 	end
 
 	def get_avatar
-		"http://" + @page.css('div.logo-container img').first['src'] rescue nil
+		"http:" + @page.css('div.logo-container img').first['src'] rescue nil
 	end
 
 	def get_size
