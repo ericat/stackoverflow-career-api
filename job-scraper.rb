@@ -12,11 +12,10 @@ class JobScraper
   end
 
   def build_urls
-   ["http://careers.stackoverflow.com/jobs?pg=1"]
-    # , "http://careers.stackoverflow.com/jobs?pg=2", "http://careers.stackoverflow.com/jobs?pg=3"]
-   # urls = []
-   # (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs?pg=#{n}"} 
-   #  urls
+   # ["http://careers.stackoverflow.com/jobs?pg=1"]
+   urls = []
+   (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs?pg=#{n}"} 
+    urls
   end
 
   def posted_at
@@ -65,7 +64,7 @@ class JobScraper
         @page = Nokogiri::HTML(open(url))
         @rows = @page.css('.list.jobs div[data-jobid]')
         job_info = []
-
+        sleep 3
         @rows.each do |row|
           job_already_scraped = (row['data-jobid'] == @last_job_id)
           break if job_already_scraped
