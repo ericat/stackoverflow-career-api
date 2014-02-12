@@ -146,6 +146,8 @@ DEPENDENCIES
   database_cleaner
   dm-ar-finders
   dm-constraints
+  dm-core
+  dm-do-adapter
   dm-postgres-adapter
   grape
   grape-entity

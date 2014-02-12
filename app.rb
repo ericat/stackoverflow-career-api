@@ -7,6 +7,7 @@ require './lib/company'
 require './lib/job'
 require './lib/tag'
 require_relative 'data_mapper_setup'
+require_relative 'data_mapper_custom'
 
   def show_jobs(jobs)
     present jobs, with: Job::Entity
@@ -46,7 +47,8 @@ class StackAPI < Grape::API
       route_param :id do
         get do
           tags = params[:id].split('&')
-          Tag.all(name: tags).map(&:jobs).flatten
+          show_jobs(Tag.all(name: tags).map(&:jobs).flatten)
+          # show_jobs(Tag.all(:name.ilike => "#{tags}").map(&:jobs).flatten)
         end
       end
     end
@@ -57,8 +59,8 @@ class StackAPI < Grape::API
       end
       route_param :id do
         get do
-          location = params[:id].split(' ').map(&:capitalize).join(' ')
-          Job.all(:location.like => "%#{location}%")
+          location = params[:id]
+          show_jobs(Job.all(:location.ilike => "%#{location}%"))
         end
       end
     end
@@ -88,7 +90,7 @@ class StackAPI < Grape::API
       route_param :id do
         get do
           tags = params[:id].split('&')
-          Tag.all(name: tags).map(&:companies).flatten
+          show_companies(Tag.all(name: tags).map(&:companies).flatten)
         end
       end
     end
@@ -101,8 +103,8 @@ class StackAPI < Grape::API
       route_param :id do
         get do
           benefit_names = params[:id].split('&')
-          benefits = benefit_names.map { |benefit| Benefit.first(:name.like => "%#{benefit}%") }
-          Company.all(benefits: benefits.flatten)
+          benefits = benefit_names.map { |benefit| Benefit.first(:name.ilike => "%#{benefit}%") }
+          show_companies(Company.all(benefits: benefits.flatten))
         end
       end
     end
@@ -125,7 +127,7 @@ class StackAPI < Grape::API
 
   desc "Return a list of full stack jobs"
   get :full_stack do
-    Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%((F|f)ull(\s)(S|s)tack)%'")
+    show_jobs(Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%((F|f)ull(\s)(S|s)tack)%'"))
   end
   # puts routes
 

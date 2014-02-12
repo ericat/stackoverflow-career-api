@@ -11,6 +11,8 @@ gem 'dm-ar-finders'
 gem 'dm-constraints'
 gem 'thin'
 gem 'nokogiri'
+gem 'dm-core'
+gem 'dm-do-adapter'
 
 group :test, :development do
   gem 'rspec'
