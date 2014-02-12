@@ -50,7 +50,20 @@ class StackAPI < Grape::API
         end
       end
     end
+    desc "Returns a list of jobs by location"
+    resource :location do
+      params do 
+        requires :id, type: String, desc: "Location"
+      end
+      route_param :id do
+        get do
+          location = params[:id].split(' ').map(&:capitalize).join(' ')
+          Job.all(:location.like => "%#{location}%")
+        end
+      end
+    end
   end
+
 
   desc "Returns a list of companies."
   get :companies do
@@ -89,14 +102,10 @@ class StackAPI < Grape::API
         get do
           benefit_names = params[:id].split('&')
           benefits = benefit_names.map { |benefit| Benefit.first(:name.like => "%#{benefit}%") }
-
-
           Company.all(benefits: benefits.flatten)
         end
       end
     end
-
-
   end
 
   desc "Returns a list of jobs where relocation is offered."
@@ -118,9 +127,7 @@ class StackAPI < Grape::API
   get :full_stack do
     Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%((F|f)ull(\s)(S|s)tack)%'")
   end
-
-
-  puts routes
+  # puts routes
 
 end
 

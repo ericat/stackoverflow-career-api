@@ -11,11 +11,11 @@ class CompanyScraper
 	end
 
 	def build_urls
-		# ["http://careers.stackoverflow.com/jobs/companies?pg=2"]
+		["http://careers.stackoverflow.com/jobs/companies?pg=1", "http://careers.stackoverflow.com/jobs/companies?pg=1"]
 			# , "http://careers.stackoverflow.com/jobs/companies?pg=2" ]
-		urls = []
-		(1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
-		urls
+		# urls = []
+		# (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
+		# urls
 	end
 
 	def company_urls
@@ -23,6 +23,7 @@ class CompanyScraper
 		company_urls = []
 		urls.map do |url|
 		  page = Nokogiri::HTML(open(url))
+		  sleep 0.3
 
 		  break if page.css('.list.companies a.title').first['href'].split('/').last == @last_company_id
 		  
@@ -79,7 +80,7 @@ class CompanyScraper
 		@company_urls.map do |company_url|
 			puts "Parsing page #{index}"
 			index += 1
-			sleep 3
+			sleep 0.3
 		  @page = Nokogiri::HTML(open(company_url))
 
 		    { name: get_name,
@@ -108,6 +109,7 @@ class CompanyScraper
 			url = 'http://careers.stackoverflow.com/jobs/' + job_id
 			puts "Parsing page #{index}"
 			index += 1
+			sleep 0.3
 
 			open(url) do |resp|
 				url = resp.base_uri.to_s
