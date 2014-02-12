@@ -21,14 +21,14 @@ class Company
 
   property :id, Serial, :required => true
   property :name, Text, :required => true
-  property :avatar, String
+  property :avatar, Text
   property :size, String
   property :status, String
   property :founded, Integer
-  property :url, String
+  property :url, Text
   property :company_id, String
   property :created_at, Time
   property :scraping_round, Integer
-  property :stack_url, String
+  property :stack_url, Text
 end
 
