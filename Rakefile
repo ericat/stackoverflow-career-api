@@ -42,7 +42,7 @@ def parse_companies(pages)
     jobs = company_info.delete(:jobs)
 
     company = Company.create(company_info)
-    puts company_info
+    # puts company_info
     raise company.errors.inspect if company.errors.any?
 
     if tag_names

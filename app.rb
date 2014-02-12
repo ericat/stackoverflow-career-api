@@ -9,9 +9,9 @@ require './lib/tag'
 require_relative 'data_mapper_setup'
 require_relative 'data_mapper_custom'
 
-  def show_jobs(jobs)
-    present jobs, with: Job::Entity
-  end
+def show_jobs(jobs)
+  present jobs, with: Job::Entity
+end
 
 def show_companies(companies)
   present companies, with: Company::Entity
