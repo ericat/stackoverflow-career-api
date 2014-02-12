@@ -42,7 +42,7 @@ class CompanyScraper
 	end
 
 	def get_avatar
-		@page.css('div.logo-container img').first['src'] rescue nil
+		"http://" + @page.css('div.logo-container img').first['src'] rescue nil
 	end
 
 	def get_size
@@ -80,7 +80,7 @@ class CompanyScraper
 		@company_urls.map do |company_url|
 			puts "Parsing page #{index}"
 			index += 1
-			sleep 0.5
+			sleep 0.6
 		  @page = Nokogiri::HTML(open(company_url))
 
 		    { name: get_name,
@@ -93,7 +93,8 @@ class CompanyScraper
 		      tags: get_tags,
 		      benefits: get_benefits,
 		      jobs: get_open_jobs,
-		      created_at: posted_at
+		      created_at: posted_at,
+		      stack_url: company_url
 		    }
 		end
 	end

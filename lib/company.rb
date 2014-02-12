@@ -11,6 +11,8 @@ class Company
     expose :founded
     expose :url
     expose :company_id
+    expose :stack_url
+
   end
 
   has n, :tags, :through => Resource
@@ -27,5 +29,6 @@ class Company
   property :company_id, String
   property :created_at, Time
   property :scraping_round, Integer
+  property :stack_url, String
 end
 
