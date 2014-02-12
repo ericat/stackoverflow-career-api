@@ -80,7 +80,7 @@ class CompanyScraper
 		@company_urls.map do |company_url|
 			puts "Parsing page #{index}"
 			index += 1
-			sleep 0.3
+			sleep 0.5
 		  @page = Nokogiri::HTML(open(company_url))
 
 		    { name: get_name,
@@ -109,7 +109,7 @@ class CompanyScraper
 			url = 'http://careers.stackoverflow.com/jobs/' + job_id
 			puts "Parsing page #{index}"
 			index += 1
-			sleep 0.3
+			sleep 0.5
 
 			open(url) do |resp|
 				url = resp.base_uri.to_s

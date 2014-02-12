@@ -64,7 +64,7 @@ class JobScraper
         @page = Nokogiri::HTML(open(url))
         @rows = @page.css('.list.jobs div[data-jobid]')
         job_info = []
-        sleep 0.3
+        sleep 0.5
         @rows.each do |row|
           job_already_scraped = (row['data-jobid'] == @last_job_id)
           break if job_already_scraped
