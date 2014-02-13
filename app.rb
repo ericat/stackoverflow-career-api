@@ -32,7 +32,7 @@ class StackAPI < Grape::API
 
   
   desc "Returns a list of jobs."
-  resource :jobs do
+  # resource :jobs do
     # paginate :per_page => 50
 
     get :jobs do
@@ -40,7 +40,7 @@ class StackAPI < Grape::API
       # paginate(jobs)
       # show_jobs(Job.first(300))
     end
-  end
+  # end
 
   desc "Return a single job."
   resource :jobs do
