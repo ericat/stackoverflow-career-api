@@ -105,7 +105,7 @@ desc "Scrape jobs not in db"
 task :jobs_not_in_db do
   job_ids = Job.all(:title => "Job Missing").map(&:job_id)
   jobs = CompanyScraper.scrape_jobs(job_ids)
-  jobs.each do |job_info|
+  jobs.compact.each do |job_info|
     tag_names = job_info.delete(:tags)
     job = Job.first(job_id: job_info[:job_id])
     job.update(job_info)
@@ -118,6 +118,11 @@ task :jobs_not_in_db do
       end
     end
   end
+end
+
+desc "Cleanup jobs not found" 
+taks :cleanup_jobs do
+  Job.all(:title => "Job Missing").delete
 end
 
 desc "Refresh jobs database"
