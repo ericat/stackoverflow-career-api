@@ -18,7 +18,7 @@ def show_companies(companies)
   present companies, with: Company::Entity
 end
 
-class StackAPI < Grape::API
+# class StackAPI < Grape::API
 
   include Grape::Kaminari
   format :json
@@ -27,13 +27,13 @@ class StackAPI < Grape::API
 
   
   desc "Returns a list of jobs."
-  resource :jobs do
-      paginate :per_page => 50
-    get :jobs do
-      jobs = show_jobs(Job.all)
-      paginate(jobs)
-      # show_jobs(Job.first(300))
-    end
+  # resource :jobs do
+  #   paginate :per_page => 50
+  get :jobs do
+    # jobs = show_jobs(Job.all)
+    # paginate(jobs)
+    show_jobs(Job.first(300))
+  end
   end
 
   desc "Return a single job."
