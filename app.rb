@@ -36,7 +36,7 @@ class StackAPI < Grape::API
     # paginate :per_page => 50
 
     get :jobs do
-      jobs = show_jobs(Job.first(300))
+      jobs = show_jobs(Job.first(50))
       # paginate(jobs)
       # show_jobs(Job.first(300))
     end
