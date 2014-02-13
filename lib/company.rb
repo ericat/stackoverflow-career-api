@@ -26,7 +26,7 @@ class Company
   property :status, String
   property :founded, Integer
   property :url, Text
-  property :company_id, String
+  property :company_id, Text
   property :created_at, Time
   property :scraping_round, Integer
   property :stack_url, Text
