@@ -158,6 +158,7 @@ DEPENDENCIES
   grape
   grape-entity
   grape-kaminari
+  kaminari
   newrelic_rpm
   nokogiri
   rake
