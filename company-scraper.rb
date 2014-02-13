@@ -106,6 +106,7 @@ class CompanyScraper
 
 	def self.scrape_jobs(job_ids)
 		index = 1
+		job_ids = job_ids[23..job_ids.size-1]
 		job_ids.map do |job_id|
 			url = 'http://careers.stackoverflow.com/jobs/' + job_id
 			puts "Parsing page #{index}"
