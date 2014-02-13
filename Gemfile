@@ -14,8 +14,8 @@ gem 'nokogiri'
 gem 'dm-core'
 gem 'dm-do-adapter'
 gem 'newrelic_rpm'
-gem 'kaminari', :require => 'kaminari/grape'
-gem 'grape-kaminari'
+# gem 'kaminari', :require => 'kaminari/grape'
+# gem 'grape-kaminari'
 
 group :test, :development do
   gem 'rspec'

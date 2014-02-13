@@ -25,7 +25,7 @@ end
 
 class StackAPI < Grape::API
 
-  include Grape::Kaminari
+  # include Grape::Kaminari
   format :json
   default_format :json
   prefix 'api'
@@ -33,11 +33,11 @@ class StackAPI < Grape::API
   
   desc "Returns a list of jobs."
   resource :jobs do
-    paginate :per_page => 50
+    # paginate :per_page => 50
 
     get :jobs do
-      jobs = show_jobs(Job.all)
-      paginate(jobs)
+      jobs = show_jobs(Job.first(300))
+      # paginate(jobs)
       # show_jobs(Job.first(300))
     end
   end
