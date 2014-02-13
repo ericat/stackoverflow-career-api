@@ -12,7 +12,6 @@ class Company
     expose :url
     expose :company_id
     expose :stack_url
-    expose :tag_names
   end
 
   has n, :tags, :through => Resource
