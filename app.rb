@@ -6,6 +6,7 @@ require './lib/benefit'
 require './lib/company'
 require './lib/job'
 require './lib/tag'
+require 'grape-kaminari'
 require_relative 'data_mapper_setup'
 require_relative 'data_mapper_custom'
 
@@ -18,14 +19,21 @@ def show_companies(companies)
 end
 
 class StackAPI < Grape::API
+
+  include Grape::Kaminari
   format :json
   default_format :json
   prefix 'api'
 
   
   desc "Returns a list of jobs."
-  get :jobs do
-    show_jobs(Job.first(300))
+  resource :jobs do
+      paginate :per_page => 50
+    get :jobs do
+      jobs = show_jobs(Job.all)
+      paginate(jobs)
+      # show_jobs(Job.first(300))
+    end
   end
 
   desc "Return a single job."
