@@ -25,7 +25,7 @@ class StackAPI < Grape::API
   
   desc "Returns a list of jobs."
   get :jobs do
-    show_jobs(Job.all)
+    show_jobs(Job.first(300))
   end
 
   desc "Return a single job."
