@@ -18,9 +18,9 @@ def show_companies(companies)
   present companies, with: Company::Entity
 end
 
-# class StackAPI < Grape::API
+class StackAPI < Grape::API
 
-  include Grape::Kaminari
+  # include Grape::Kaminari
   format :json
   default_format :json
   prefix 'api'
