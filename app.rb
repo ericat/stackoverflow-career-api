@@ -48,7 +48,6 @@ class StackAPI < Grape::API
         get do
           tags = params[:id].split('&').map(&:downcase)
           show_jobs(Tag.all(name: tags).map(&:jobs).flatten)
-          # show_jobs(Tag.all(:name.ilike => "#{tags}").map(&:jobs).flatten)
         end
       end
     end

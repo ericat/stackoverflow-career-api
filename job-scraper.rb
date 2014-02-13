@@ -12,10 +12,10 @@ class JobScraper
   end
 
   def build_urls
-   # ["http://careers.stackoverflow.com/jobs?pg=1"]
-   urls = []
-   (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs?pg=#{n}"} 
-    urls
+   ["http://careers.stackoverflow.com/jobs?pg=1"]
+   # urls = []
+   # (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs?pg=#{n}"} 
+   #  urls
   end
 
   def posted_at

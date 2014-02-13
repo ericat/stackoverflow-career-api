@@ -11,6 +11,7 @@ class Job
     expose :jscore
     expose :location
     expose :company_name
+    expose :tag_names
   end
 
   has n, :tags, :through => Resource
@@ -27,5 +28,8 @@ class Job
   property :scraping_round, Integer
   property :created_at, Time
 
+  def tag_names
+    tags.map(&:name)
+  end
 
 end

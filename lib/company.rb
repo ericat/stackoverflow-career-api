@@ -12,7 +12,7 @@ class Company
     expose :url
     expose :company_id
     expose :stack_url
-
+    expose :tag_names
   end
 
   has n, :tags, :through => Resource
@@ -23,12 +23,17 @@ class Company
   property :name, Text, :required => true
   property :avatar, Text
   property :size, String
-  property :status, String
+  property :status, Text
   property :founded, Integer
   property :url, Text
   property :company_id, Text
   property :created_at, Time
   property :scraping_round, Integer
   property :stack_url, Text
+
+
+  def tag_names
+    tags.map(&:name)
+  end
 end
 
