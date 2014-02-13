@@ -121,7 +121,7 @@ task :jobs_not_in_db do
 end
 
 desc "Cleanup jobs not found" 
-taks :cleanup_jobs do
+task :cleanup_jobs do
   Job.all(:title => "Job Missing").delete
 end
 
