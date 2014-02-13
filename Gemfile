@@ -14,7 +14,7 @@ gem 'nokogiri'
 gem 'dm-core'
 gem 'dm-do-adapter'
 gem 'newrelic_rpm'
-# gem 'grape-kaminari'
+gem 'grape-kaminari'
 
 group :test, :development do
   gem 'rspec'
