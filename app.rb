@@ -1,6 +1,7 @@
 require 'bundler/setup'
 Bundler.require(:default) 
 
+# test deploy
 # require 'grape'
 # require 'grape-entity'
 # require 'data_mapper'
