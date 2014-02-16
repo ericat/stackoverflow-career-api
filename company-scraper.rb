@@ -11,10 +11,10 @@ class CompanyScraper
 	end
 
 	def build_urls
-		["http://careers.stackoverflow.com/jobs/companies?pg=1"]
-		# urls = []
-		# (1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
-		# urls
+		# ["http://careers.stackoverflow.com/jobs/companies?pg=1"]
+		urls = []
+		(1..@last_page).each {|n| urls << "http://careers.stackoverflow.com/jobs/companies?pg=#{n}"} 
+		urls
 	end
 
 	def company_urls

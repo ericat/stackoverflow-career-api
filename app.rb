@@ -135,7 +135,6 @@ class StackAPI < Grape::API
   get :full_stack do
     show_jobs(Job.find_by_sql("SELECT * FROM jobs WHERE title SIMILAR TO '%((F|f)ull(\s)(S|s)tack)%'"))
   end
-  # puts routes
 
 end
 
