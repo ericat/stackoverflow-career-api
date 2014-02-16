@@ -28,7 +28,6 @@ class StackAPI < Grape::API
   
   desc "Returns a list of jobs."
   paginate
-
     get :jobs do
       jobs = paginate(Job.all)
       show_jobs(jobs)
@@ -73,6 +72,7 @@ class StackAPI < Grape::API
 
 
   desc "Returns a list of companies."
+  paginate
   get :companies do
     companies = paginate(Company.all)
     show_companies(companies)
