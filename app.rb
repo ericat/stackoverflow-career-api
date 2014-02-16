@@ -1,17 +1,13 @@
-require 'bundler/setup'
-Bundler.require(:default) 
-
-# test deploy
-# require 'grape'
-# require 'grape-entity'
-# require 'data_mapper'
-# require 'dm-ar-finders'
+require 'grape'
+require 'grape-entity'
+require 'data_mapper'
+require 'dm-ar-finders'
 require './lib/benefit'
 require './lib/company'
 require './lib/job'
 require './lib/tag'
-# require 'kaminari/grape'
-# require 'grape-kaminari'
+require 'grape-pagination'
+require 'will_paginate/array'
 require_relative 'data_mapper_setup'
 require_relative 'data_mapper_custom'
 
@@ -25,22 +21,18 @@ end
 
 class StackAPI < Grape::API
 
-  # include Grape::Kaminari
   format :json
   default_format :json
   prefix 'api'
 
   
   desc "Returns a list of jobs."
-  # resource :jobs do
-    # paginate :per_page => 50
+  paginate
 
     get :jobs do
-      jobs = show_jobs(Job.first(50))
-      # paginate(jobs)
-      # show_jobs(Job.first(300))
+      jobs = paginate(Job.all)
+      show_jobs(jobs)
     end
-  # end
 
   desc "Return a single job."
   resource :jobs do
@@ -82,7 +74,8 @@ class StackAPI < Grape::API
 
   desc "Returns a list of companies."
   get :companies do
-    show_companies(Company.all)
+    companies = paginate(Company.all)
+    show_companies(companies)
   end
 
   desc "Returns a single company."

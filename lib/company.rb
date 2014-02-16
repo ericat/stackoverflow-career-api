@@ -4,6 +4,7 @@ class Company
   include Grape::Entity::DSL
 
   entity do
+    expose :id
     expose :name
     expose :avatar
     expose :size

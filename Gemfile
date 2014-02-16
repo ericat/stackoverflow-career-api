@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+# ruby '2.0.0'
 
 gem 'data_mapper'
 gem 'dm-postgres-adapter'
@@ -14,8 +14,8 @@ gem 'nokogiri'
 gem 'dm-core'
 gem 'dm-do-adapter'
 gem 'newrelic_rpm'
-# gem 'kaminari', :require => 'kaminari/grape'
-# gem 'grape-kaminari'
+gem 'grape-pagination'
+gem 'will_paginate', '~> 3.0'
 
 group :test, :development do
   gem 'rspec'

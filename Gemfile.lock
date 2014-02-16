@@ -92,6 +92,9 @@ GEM
     grape-entity (0.4.1)
       activesupport
       multi_json (>= 1.3.2)
+    grape-pagination (0.1.0)
+      addressable
+      grape (~> 0.3)
     hashie (2.0.5)
     i18n (0.6.9)
     ice_nine (0.11.0)
@@ -135,6 +138,7 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0.1)
       equalizer (~> 0.0.7)
+    will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -152,8 +156,10 @@ DEPENDENCIES
   dm-postgres-adapter
   grape
   grape-entity
+  grape-pagination
   newrelic_rpm
   nokogiri
   rake
   rspec
   thin
+  will_paginate (~> 3.0)

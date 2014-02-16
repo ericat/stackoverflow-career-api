@@ -4,6 +4,7 @@ class Job
   include Grape::Entity::DSL
 
   entity do
+    expose :id
     expose :job_id
     expose :title
     expose :description
