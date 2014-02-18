@@ -40,21 +40,23 @@ Example
 ------
 The query below will return a list of the first 30 jobs available. The command -i will show you the headers, where you can see the second page available in the series: http://stackable.herokuapp.com/api/companies?page=2&per_page=30
 
+From the command line, type:
+
 ```
 curl -i http://stackable.herokuapp.com/api/jobs
 ```
-As you may have gathered, results are paginated for two queries: api/jobs and api/companies. URLs are built by appending the following string to the main URL:
+As you may have gathered, results are paginated for two queries: /api/jobs and /api/companies. URLs are built by appending the following string to the main URL:
 
 ```
 ?page=2&per_page=30
 ```
-To make a GET request you can either use curl or Net-Http straight from your Ruby code. There are other solutions, one of which is our [Gem Stackable]. This makes it easier to pull jobs from your Ruby code as it handles GET requests for you.
+To make a GET request you can either use curl or net-http straight from your Ruby code. There are other solutions, one of which is our [Gem Stackable]. This makes it easier to pull jobs from your Ruby code as it handles GET requests for you (similarly to what Octokit does for Github API).
 
-However, the Stackable Gem still cannot handle pagination (it will soon). For this reason, all queries will work fine except get_all_companies and all_jobs, which will only return the first 30 jobs / companies. For these two queries please query the API directly for now.
+However, the Stackable Gem still cannot handle pagination (it will be able to soon). For this reason, all queries will work fine except get_all_companies and all_jobs, which will only return the first 30 jobs / companies. For these two queries, please query the API directly for now.
 
 Important
 ---------
-While [all Jobs] and [all Companies] listings are paginated all other queries aren't yet. This may slow down the API. We will launch pagination for all results as soon as possible. 
+While [all Jobs] and [all Companies] listings are paginated, all other queries aren't yet. This may slow down the API. We will launch pagination for all results as soon as possible. 
 
 Tech Stack
 ----------
