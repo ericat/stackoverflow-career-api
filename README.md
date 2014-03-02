@@ -1,7 +1,7 @@
 Unofficial Stack Overflow API
 =============================
 
-Taking inspiration from [this post] on Stackoverflow, we decided to make an API for the Stackoverflow Careers website. 
+Taking inspiration from [this post] on Stackoverflow, we decided to make an API for the Stackoverflow Careers website as a final project for [Makers Academy]. 
 
 We wrote two very polite scrapers which gather new jobs / companies posted on Stackoverflow on a daily basis. The data is availabe in JSON format on Heroku at various URLs on http://stackable.herokuapp.com, for example: 
 
@@ -80,3 +80,4 @@ Grape::Entity::DSL module made it possible to avoid exposing user-unfriendly dat
 [all Companies]: http://stackable.herokuapp.com/api/companies
 [Gem Stackable]: https://github.com/mfisher90/stackable
 [Grape]: https://github.com/intridea/grape
+[Makers Academy]: http://www.makersacademy.com/
