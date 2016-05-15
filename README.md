@@ -1,5 +1,6 @@
 Unofficial Stack Overflow API
 =============================
+==IMPORTANT=== This repo is no longer maintained.
 
 Taking inspiration from [this post] on Stackoverflow, we decided to make an API for the Stackoverflow Careers website as a final project for [Makers Academy]. 
 
